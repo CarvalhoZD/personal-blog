@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { TemaService } from "src/Tema/services/tema.service";
+import { TemaService } from "../../Tema/services/tema.service";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { Postagem } from "../entities/postagem.entities";
 
@@ -15,7 +15,8 @@ export class PostagemService {
     async findAll (): Promise<Postagem[]> {
         return await this.postagemRepository.find({
             relations: {
-                tema: true
+                tema: true,
+                usuario: true
             }
         });
     }
@@ -24,6 +25,10 @@ export class PostagemService {
         let postagem = await this.postagemRepository.findOne({
             where: {
                 id
+            },
+            relations: {
+                tema: true,
+                usuario: true
             }
         });
 
@@ -39,7 +44,8 @@ export class PostagemService {
                 titulo: ILike(`%%${titulo}%`)
             },
             relations: {
-                tema: true
+                tema: true,
+                usuario: true
             }
         });
     }
