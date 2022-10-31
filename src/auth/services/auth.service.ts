@@ -12,7 +12,7 @@ export class AuthService {
         private bcrypt: Bcrypt
     ) {}
 
-    async validateUser (username: string, password: string) {
+    async validateUser (username: string, password: string): Promise<any> {
 
         const buscaUsuario = await this.usuarioService.findByUsuario(username)
 
@@ -21,13 +21,13 @@ export class AuthService {
 
         const match = await this.bcrypt.compararSenhas(buscaUsuario.senha, password)
 
-        if (!buscaUsuario && match) {
+        if (buscaUsuario && match) {
             const {senha, ...result} = buscaUsuario
             return result
         }
 
-        return null
-    }
+        return null;
+    }   
 
     async login (usuarioLogin: any) {
 
@@ -39,3 +39,4 @@ export class AuthService {
         };
     }
 }
+
